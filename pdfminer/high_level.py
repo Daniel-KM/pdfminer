@@ -22,7 +22,9 @@ def extract_text_to_fp(inf, outfp,
                     _py2_no_more_posargs=None,  # Bloody Python2 needs a shim
                     output_type='text', codec='utf-8', laparams = None,
                     maxpages=0, page_numbers=None, password="", scale=1.0, rotation=0,
-                    layoutmode='normal', output_dir=None, strip_control=False,
+                    layoutmode='normal',
+                    resolution=72.0, measurement_unit='pixel', decimal=0,
+                    output_dir=None, strip_control=False,
                     debug=False, disable_caching=False, **other):
     """
     Parses text from inf-file and writes to outfp file-like object.
@@ -40,6 +42,9 @@ def extract_text_to_fp(inf, outfp,
     scale: Scale factor
     rotation: Rotation factor
     layoutmode: Default is 'normal', see pdfminer.converter.HTMLConverter
+    resolution: Output resolution in dot per inch (default: 72) for Alto.
+    measurement_unit: Alto allows only "pixel" (default), "mm10" and "inch1200".
+    decimal: Number of digits for Alto output with mm or inch (default: 0).
     output_dir: If given, creates an ImageWriter for extracted images.
     strip_control: Does what it says on the tin
     debug: Output more logging data
@@ -67,6 +72,9 @@ def extract_text_to_fp(inf, outfp,
                               stripcontrol=strip_control)
     elif output_type == 'alto':
         device = XMLAltoConverter(rsrcmgr, outfp, codec=codec, laparams=laparams,
+                                  resolution=resolution,
+                                  measurement_unit=measurement_unit,
+                                  decimal=decimal,
                                   imagewriter=imagewriter,
                                   stripcontrol=strip_control)
     elif output_type == 'html':
