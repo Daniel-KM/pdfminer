@@ -13,7 +13,7 @@ from .pdfparser import PDFParser
 from .pdfinterp import PDFResourceManager, PDFPageInterpreter
 from .pdfdevice import PDFDevice, TagExtractor
 from .pdfpage import PDFPage
-from .converter import XMLConverter, HTMLConverter, TextConverter
+from .converter import XMLConverter, XMLAltoConverter, HTMLConverter, TextConverter
 from .cmapdb import CMapDB
 from .image import ImageWriter
 
@@ -30,7 +30,7 @@ def extract_text_to_fp(inf, outfp,
     Beware laparams: Including an empty LAParams is not the same as passing None!
     Returns nothing, acting as it does on two streams. Use StringIO to get strings.
     
-    output_type: May be 'text', 'xml', 'html', 'tag'. Only 'text' works properly.
+    output_type: May be 'text', 'xml', 'alto', 'html', 'tag'. Only 'text' works properly.
     codec: Text decoding codec
     laparams: An LAParams object from pdfminer.layout.
         Default is None but may not layout correctly.
@@ -65,6 +65,10 @@ def extract_text_to_fp(inf, outfp,
         device = XMLConverter(rsrcmgr, outfp, codec=codec, laparams=laparams,
                               imagewriter=imagewriter,
                               stripcontrol=strip_control)
+    elif output_type == 'alto':
+        device = XMLAltoConverter(rsrcmgr, outfp, codec=codec, laparams=laparams,
+                                  imagewriter=imagewriter,
+                                  stripcontrol=strip_control)
     elif output_type == 'html':
         device = HTMLConverter(rsrcmgr, outfp, codec=codec, scale=scale,
                                layoutmode=layoutmode, laparams=laparams,

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Converts PDF text content (though not images containing text) to plain text, html, xml or "tags".
+Converts PDF text content (though not images containing text) to plain text, html, xml, xml alto or "tags".
 """
 import sys
 import logging
@@ -44,6 +44,7 @@ def extract_text(files=[], outfile='-',
         for override, alttype in (  (".htm", "html"),
                                     (".html", "html"),
                                     (".xml", "xml"),
+                                    (".alto.xml", "alto"),
                                     (".tag", "tag") ):
             if outfile.endswith(override):
                 output_type = alttype
@@ -72,7 +73,7 @@ def main(args=None):
     P.add_argument("-m", "--maxpages", type=int, default=0, help = "Maximum pages to parse")
     P.add_argument("-P", "--password", type=str, default="", help = "Decryption password for PDF")
     P.add_argument("-o", "--outfile", type=str, default="-", help="Output file (default/'-' is stdout)")
-    P.add_argument("-t", "--output_type", type=str, default="text", help = "Output type: text|html|xml|tag (default is text)")
+    P.add_argument("-t", "--output_type", type=str, default="text", help = "Output type: text|html|xml|alto|tag (default is text)")
     P.add_argument("-c", "--codec", type=str, default="utf-8", help = "Text encoding")
     P.add_argument("-s", "--scale", type=float, default=1.0, help = "Scale")
     P.add_argument("-A", "--all-texts", default=None, action="store_true", help="LAParams all texts")
@@ -105,6 +106,7 @@ def main(args=None):
         for override, alttype in (  (".htm",  "html"),
                                     (".html", "html"),
                                     (".xml",  "xml" ),
+                                    (".alto.xml", "alto"),
                                     (".tag",  "tag" ) ):
             if A.outfile.endswith(override):
                 A.output_type = alttype
