@@ -18,8 +18,9 @@ def extract_text(files=[], outfile='-',
             word_margin=None, char_margin=None, line_margin=None, boxes_flow=None, # LAParams
             output_type='text', codec='utf-8', strip_control=False,
             maxpages=0, page_numbers=None, password="", scale=1.0, rotation=0,
-            layoutmode='normal', output_dir=None, debug=False,
-            disable_caching=False, **other):
+            layoutmode='normal',
+            resolution=72.0, measurement_unit='pixel', decimal=0,
+            output_dir=None, debug=False, disable_caching=False, **other):
     if _py2_no_more_posargs is not None:
         raise ValueError("Too many positional arguments passed.")
     if not files:
@@ -85,6 +86,9 @@ def main(args=None):
     P.add_argument("-Y", "--layoutmode", default="normal", type=str, help="HTML Layout Mode")
     P.add_argument("-n", "--no-laparams", default=False, action="store_true", help = "Pass None as LAParams")
     P.add_argument("-R", "--rotation", default=0, type=int, help = "Rotation")
+    P.add_argument("-Z", "--resolution", type=float, default=72.0, help="Output resolution in dot per inch (default: 72) for Alto.")
+    P.add_argument("-U", "--measurement_unit", type=str, default='pixel', help="Alto allows only 'pixel' (default), 'mm10' and 'inch1200'.")
+    P.add_argument("-D", "--decimal", type=int, default=0, help="Number of digits for Alto output with mm or inch (default: 0).")
     P.add_argument("-O", "--output-dir", default=None, help="Output directory for images")
     P.add_argument("-C", "--disable-caching", default=False, action="store_true", help="Disable caching")
     P.add_argument("-S", "--strip-control", default=False, action="store_true", help="Strip control in XML mode")
